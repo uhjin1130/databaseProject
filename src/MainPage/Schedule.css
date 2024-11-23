@@ -1,0 +1,16 @@
+.schedule-container {
+  width: 90%; /* 너비를 부모 화면의 90% */
+  max-width: 1200px; /* 최대 너비 */
+  height: 700px; /* 고정된 높이 */
+  margin: 0 auto; /* 중앙 정렬 */
+}
+  
+  .react-calendar {
+    font-size: 1.3rem;  /* 달력 글자 크기 키우기 */
+    width: 100%;  /* 달력 너비 100% */
+    max-width: 500px;  /* 달력 최대 너비 */
+  }
+
+  
+
+  

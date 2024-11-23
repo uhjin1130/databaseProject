@@ -1,0 +1,26 @@
+/* MainPage.css */
+.main-page {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  justify-content: flex-start; /* 위쪽 정렬 */
+  align-items: center; /* 수평 중앙 정렬 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-page h2 {
+  font-size: 2.5rem;
+  margin-bottom: 5rem;
+}
+
+.main-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.main-page li {
+  font-size: 2.0rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+}

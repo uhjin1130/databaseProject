@@ -1,25 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./MainPage/NavBar";
+import Schedule from "./MainPage/Schedule";
+import MainPage from "./MainPage/MainPage";
+import RequestBoard from "./RequestBoard/RequestBoard"; // 수정요청 게시판
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState("");
+  const [games, setGames] = useState([]);
+
+  const scheduleData = {
+    "2024-11-23": ["KIA vs LG", "삼성 vs 롯데", "SSG vs 한화"],
+    "2024-11-24": ["두산 vs KT"],
+  };
+
+  const events = [
+    {
+      title: "KIA vs LG",
+      start: new Date(2024, 10, 23),
+      end: new Date(2024, 10, 23),
+    },
+    {
+      title: "삼성 vs 롯데",
+      start: new Date(2024, 10, 23),
+      end: new Date(2024, 10, 23),
+    },
+    {
+      title: "두산 vs KT",
+      start: new Date(2024, 10, 24),
+      end: new Date(2024, 10, 24),
+    },
+  ];
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+
+    const formatted = date
+      .toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\. /g, "-")
+      .replace(".", "");
+    setFormattedDate(formatted);
+    setGames(scheduleData[formatted] || []);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+
+        {/* 라우팅 설정 */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="main-container">
+                <Schedule events={events} onDateChange={handleDateChange} />
+                <MainPage formattedDate={formattedDate} games={games} />
+              </div>
+            }
+          />
+
+          {/* 수정요청 페이지 */}
+          <Route path="/request-board" element={<RequestBoard />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
