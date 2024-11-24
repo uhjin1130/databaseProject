@@ -1,0 +1,52 @@
+.match-records-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    margin: 0;
+  }
+  
+  .month-select {
+    padding: 5px;
+    font-size: 1rem;
+  }
+  
+  .records-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .records-table th,
+  .records-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .records-table th {
+    background-color: #f8f8f8;
+  }
+  
+  .records-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .records-table tr:hover {
+    background-color: #eef;
+  }
+  
+  .records-table td {
+    font-size: 0.9rem;
+  }
+  

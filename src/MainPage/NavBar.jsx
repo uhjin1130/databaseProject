@@ -10,21 +10,28 @@ const Navbar = () => {
       </div>
       <ul className="menu">
         <li>
-          <Link to="/teams">팀</Link>
+          <Link to="/matchRecords">경기기록</Link>
+        </li>
+        <li>
+          <Link to="/teamInfo">팀</Link>
         </li>
         <li>
           <Link to="/players">선수</Link>
         </li>
         <li>
-          <Link to="/ranking">순위</Link>
+          <Link to="/team-rankings">순위</Link>
         </li>
         <li>
           <Link to="/request-board">수정요청</Link>
         </li>
       </ul>
       <div className="auth-buttons">
-        <button className="login-btn">로그인</button>
-        <button className="signup-btn">회원가입</button>
+        <button className="login-btn">
+          <Link to="/login">로그인</Link>
+        </button>
+        <button className="signup-btn">
+          <Link to="/sign-up">회원가입</Link>
+        </button>
       </div>
     </nav>
   );

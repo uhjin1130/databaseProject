@@ -1,0 +1,156 @@
+.signupContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 20px;
+  }
+  
+  .logoContainer {
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    margin-bottom: 20px; /* 회원가입 폼과의 간격 */
+    gap: 13px;
+  }
+  
+  
+  .logoBox {
+    width: 40px;
+    height: 40px;
+    background-color: #01008C; /* 파란색 배경 */
+    color: #fff; /* 흰색 텍스트 */
+    font-size: 24px;
+    font-weight: bold;
+    display: flex; /* 텍스트 가운데 정렬 */
+    justify-content: center; /* 텍스트 가로 방향 가운데 정렬 */
+    align-items: center; /* 텍스트 세로 방향 가운데 정렬 */
+    border-radius: 8px; /* 둥근 모서리 */
+  }
+  
+  .logoText {
+    font-size: 35px;
+    font-weight: bold;
+    color: #01008C; /* 파란색 텍스트 */
+  }
+  
+  .formBox {
+    width: 500px;
+    height: 380px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: row; /* 한 줄로 배치 */
+    margin-bottom: 5px;
+  }
+  
+  label {
+    flex: 0 0 60px; /* 고정 너비를 설정하여 왼쪽에 정렬 */
+    text-align: left;
+    margin-right: 10px; /* 오른쪽 여백 */
+    font-size: 14px;
+    color: #333;
+  }
+  
+  input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1; /* 입력 칸이 남는 공간을 차지하도록 설정 */
+  }
+  
+  .errorText {
+    color: #ff0000; /* 붉은 색 */
+    font-size: 12px; /* 작은 글씨 크기 */
+    margin-top: 5px; /* 에러 메시지와 입력창 사이 간격 */
+    margin-left: 50px; /* 메시지 시작 위치 조정 */
+    text-align: left; /* 왼쪽 정렬 */
+    min-height: 20px; /* 에러 메시지가 없을 때도 공간 확보 */
+  }
+  
+  
+  .checkButton {
+    padding: 10px 15px;
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #01008C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; /* 버튼과 입력 칸 사이에 여백 */
+  }
+  
+  
+  .emailBox {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 라벨과 입력창 사이 간격 */
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+  }
+  
+  .emailBox input {
+    flex: 1; /* 고정 크기로 설정 */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  
+  .birthdateBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 67%;
+  }
+  
+  .birthdateBox select {
+    padding: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .signupButton {
+    display: block; /* 블록 요소로 변경 */
+    margin: 20px auto; /* 수평 가운데 정렬 */
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #01008C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  
+  .backButton {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #01008C;
+    text-decoration: underline;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .signUpLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #01008C;
+  }
+  
+  .ReEnterPWLabel {
+    font-size: 14px;
+    font-weight: bold;
+    color: #01008C;
+  }
+  

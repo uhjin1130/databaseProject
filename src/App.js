@@ -4,6 +4,11 @@ import Navbar from "./MainPage/NavBar";
 import Schedule from "./MainPage/Schedule";
 import MainPage from "./MainPage/MainPage";
 import RequestBoard from "./RequestBoard/RequestBoard"; // 수정요청 게시판
+import TeamRankings from "./Ranking/TeamRankings";
+import MatchRecords from "./MatchRecords/MatchRecords";
+import Login from "./LoginPage/Login";
+import SignUp from "./SignUpPage/SignUp";
+import TeamInfo from "./TeamPage/TeamInfo";
 import "./App.css";
 
 const App = () => {
@@ -53,7 +58,6 @@ const App = () => {
     <Router>
       <div className="App">
         <Navbar />
-
         {/* 라우팅 설정 */}
         <Routes>
           <Route
@@ -65,7 +69,16 @@ const App = () => {
               </div>
             }
           />
-
+          {/* 로그인 페이지 */}
+          <Route path="/login" element={<Login />} />
+          {/* 회원가입 페이지 */}
+          <Route path="/sign-up" element={<SignUp />} />
+          {/* 경기기록 페이지 */}
+          <Route path="/MatchRecords" element={<MatchRecords />} />
+          {/* 팀 정보 페이지 */}
+          <Route path="/teamInfo" element={<TeamInfo />} />
+          {/* 팀 랭킹 페이지 */}
+          <Route path="/team-rankings" element={<TeamRankings />} />
           {/* 수정요청 페이지 */}
           <Route path="/request-board" element={<RequestBoard />} />
         </Routes>
