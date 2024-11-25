@@ -1,12 +1,17 @@
 .App {
   display: flex;
   flex-direction: column; /* 세로 방향 배치 */
-  align-items: flex-start;    /* 수평 왼쪽 정렬 */
+  align-items: center;    /* 수평 중앙 정렬 */
   justify-content: flex-start; /* 수직 상단 정렬 */
-  min-height: 100vh;       /* 화면 전체 높이 */
+  width: 100%;            /* 브라우저 창 너비에 맞춤 */
+  height: 100%;           /* 브라우저 창 높이에 맞춤 */
+  box-sizing: border-box; /* padding과 border를 포함한 크기 계산 */
   margin: 0;              /* 기본 여백 제거 */
+  padding: 0;             /* 기본 여백 제거 */
   background-color: #f8f9fa; /* 배경색 설정 */
+  overflow-x: hidden;     /* 가로 스크롤 방지 */
 }
+
 
 .main-container {
   width: 100%;

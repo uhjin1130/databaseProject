@@ -1,14 +1,17 @@
 /* Navbar.css */
 .navbar {
-  width: 98%;
+  width: 100%; /* 100% 너비를 사용 */
   display: flex;
-  justify-content: space-between;
-  /* 좌우 배치 */
-  align-items: center;
+  justify-content: space-between; /* 좌우 배치 */
+  align-items: center; /* 세로 정렬 */
   padding: 10px 20px;
   background-color: darkblue;
   color: white;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  flex-wrap: nowrap; /* 항목이 줄 바꿈되지 않도록 설정 */
+  overflow: hidden; /* 넘치는 항목을 숨김 */
 }
+
 
 /* Link 기본 스타일 제거 */
 .navbar .menu a {
@@ -18,15 +21,16 @@
   /* 부모 요소의 글자 색상에 맞추기 */
 }
 
-/* 메뉴 항목에 대한 스타일 */
-.navbar .menu li {
-  display: inline-block;
-  margin-right: 400px;
+.navbar .menu {
+  display: flex; /* 가로 방향으로 배치 */
+  gap: 50px; /* 메뉴 항목 간 간격 */
+  flex: 1; /* 가용 공간을 차지하도록 설정 */
+  justify-content: center;
+  list-style: none; /* 불필요한 기본 스타일 제거 */
+  margin: 0;
+  padding: 0;
 }
 
-.navbar .menu li:last-child {
-  margin-right: 0;
-}
 
 /* 로고 스타일 */
 .navbar .logo a {
@@ -52,9 +56,16 @@
 .login-btn {
   background-color: #007BFF;
   color: white;
+  margin-right: 5px;
 }
 
 .signup-btn {
   background-color: #28A745;
   color: white;
+}
+
+.login-btn a,
+.signup-btn a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: white; /* 텍스트 색상 */
 }
