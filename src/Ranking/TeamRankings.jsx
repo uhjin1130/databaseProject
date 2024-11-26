@@ -11,6 +11,11 @@ const TeamRankings = () => {
     { rank: 3, team: "두산", totalPlay: 144, wins: 75, losses: 65, draws: 4 },
     { rank: 4, team: "SSG", totalPlay: 144, wins: 72, losses: 68, draws: 4 },
     { rank: 5, team: "삼성", totalPlay: 144, wins: 70, losses: 70, draws: 4 },
+    { rank: 6, team: "KIA", totalPlay: 144, wins: 68, losses: 72, draws: 4 },
+    { rank: 7, team: "LG", totalPlay: 144, wins: 66, losses: 74, draws: 4 },
+    { rank: 8, team: "두산", totalPlay: 144, wins: 64, losses: 76, draws: 4 },
+    { rank: 9, team: "SSG", totalPlay: 144, wins: 62, losses: 78, draws: 4 },
+    { rank: 10, team: "삼성", totalPlay: 144, wins: 60, losses: 80, draws: 4 },
   ];
 
   const handleYearChange = (event) => {

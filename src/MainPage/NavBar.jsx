@@ -24,6 +24,9 @@ const Navbar = () => {
         <li>
           <Link to="/request-board">수정요청</Link>
         </li>
+        <li>
+          <Link to="/edit">수정내역</Link>
+        </li>
       </ul>
       <div className="auth-buttons">
         <button className="login-btn">

@@ -4,40 +4,12 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    padding: 20px;
+    padding: 30px;
   }
-  
-  .logoContainer {
-    display: flex;
-    align-items: center; /* 세로 가운데 정렬 */
-    justify-content: center; /* 가로 가운데 정렬 */
-    margin-bottom: 20px; /* 회원가입 폼과의 간격 */
-    gap: 13px;
-  }
-  
-  
-  .logoBox {
-    width: 40px;
-    height: 40px;
-    background-color: #01008C; /* 파란색 배경 */
-    color: #fff; /* 흰색 텍스트 */
-    font-size: 24px;
-    font-weight: bold;
-    display: flex; /* 텍스트 가운데 정렬 */
-    justify-content: center; /* 텍스트 가로 방향 가운데 정렬 */
-    align-items: center; /* 텍스트 세로 방향 가운데 정렬 */
-    border-radius: 8px; /* 둥근 모서리 */
-  }
-  
-  .logoText {
-    font-size: 35px;
-    font-weight: bold;
-    color: #01008C; /* 파란색 텍스트 */
-  }
-  
+
   .formBox {
     width: 500px;
-    height: 380px;
+    height: 400px;
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 8px;

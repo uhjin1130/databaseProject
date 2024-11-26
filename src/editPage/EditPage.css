@@ -1,0 +1,51 @@
+/* Board.css */
+
+/* 게시판 컨테이너 */
+.board-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 수정목록 스타일 */
+  .post-list {
+    margin-top: 30px;
+  }
+  
+  .post-list h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .post-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .post-list li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-list li h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .post-list li p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .post-list li span {
+    font-size: 0.9rem;
+    color: #888;
+  }
+  

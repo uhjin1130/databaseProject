@@ -9,6 +9,8 @@ import MatchRecords from "./MatchRecords/MatchRecords";
 import Login from "./LoginPage/Login";
 import SignUp from "./SignUpPage/SignUp";
 import TeamInfo from "./TeamPage/TeamInfo";
+import PlayerSearch from "./PlayerPage/PlayerSearch";
+import EditPage from "./editPage/EditPage";
 import "./App.css";
 
 const App = () => {
@@ -77,10 +79,14 @@ const App = () => {
           <Route path="/MatchRecords" element={<MatchRecords />} />
           {/* 팀 정보 페이지 */}
           <Route path="/teamInfo" element={<TeamInfo />} />
+          {/* 선수 검색 페이지 */}
+          <Route path="/players" element={<PlayerSearch />} />
           {/* 팀 랭킹 페이지 */}
           <Route path="/team-rankings" element={<TeamRankings />} />
           {/* 수정요청 페이지 */}
           <Route path="/request-board" element={<RequestBoard />} />
+          {/* 수정내역 페이지 */}
+          <Route path="/edit" element={<EditPage />} />
         </Routes>
       </div>
     </Router>
