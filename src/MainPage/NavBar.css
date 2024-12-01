@@ -69,3 +69,21 @@
   text-decoration: none; /* 밑줄 제거 */
   color: white; /* 텍스트 색상 */
 }
+
+
+/* 로그아웃 버튼 스타일 */
+.logout-btn {
+  padding: 10px 15px;
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #ff1a1a;
+}
+

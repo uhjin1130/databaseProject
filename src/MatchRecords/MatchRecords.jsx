@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./MatchRecords.css";
 
 const MatchRecords = () => {
   const [selectedMonth, setSelectedMonth] = useState("2024-08"); // 기본 월 설정
-  const records = [
-    {
-      date: "2024-08-01",
-      match: "KIA vs LG",
-      stadium: "잠실",
-      winningPitcher: "홍길동",
-      umpire: "김철수",
-    },
-    {
-      date: "2024-08-02",
-      match: "두산 vs 삼성",
-      stadium: "대구",
-      winningPitcher: "이영희",
-      umpire: "박민수",
-    },
-    // 추가 데이터 작성
-  ];
+  const [records, setRecords] = useState({});
 
-  const filteredRecords = records.filter((record) =>
-    record.date.startsWith(selectedMonth)
-  );
+  // API에서 월별 경기 기록을 가져오는 함수
+  const fetchMatchRecords = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/gamerecords");
+      console.log(response.data); // 데이터 확인
+      setRecords(response.data); // 데이터 저장
+    } catch (error) {
+      console.error("Error fetching match records:", error);
+    }
+  };
+
+  // 컴포넌트가 마운트될 때 API 호출
+  useEffect(() => {
+    fetchMatchRecords();
+  }, []);
+
+  // 선택된 월의 데이터
+  const monthRecords = records[selectedMonth] || {};
 
   return (
     <div className="match-records-container">
@@ -34,39 +34,51 @@ const MatchRecords = () => {
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
-          <option value="2024-08">2024년 8월</option>
-          <option value="2024-09">2024년 9월</option>
-          <option value="2024-10">2024년 10월</option>
+          {Object.keys(records).map((month) => (
+            <option key={month} value={month}>
+              {month}
+            </option>
+          ))}
         </select>
       </div>
-      <table className="records-table">
-        <thead>
-          <tr>
-            <th>날짜</th>
-            <th>경기</th>
-            <th>구장</th>
-            <th>승리투수</th>
-            <th>심판</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredRecords.length > 0 ? (
-            filteredRecords.map((record, index) => (
-              <tr key={index}>
-                <td>{record.date}</td>
-                <td>{record.match}</td>
-                <td>{record.stadium}</td>
-                <td>{record.winningPitcher}</td>
-                <td>{record.umpire}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5">해당 월에 경기가 없습니다.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {Object.keys(monthRecords).length > 0 ? (
+        Object.keys(monthRecords).map((date) => (
+          <div key={date} className="daily-records">
+            <table className="records-table">
+              <thead>
+                <tr>
+                  <th>날짜</th>
+                  <th>경기</th>
+                  <th>점수</th>
+                  <th>구장</th>
+                  <th>승리투수</th>
+                  <th>승리타자</th>
+                  <th>심판</th>
+                </tr>
+              </thead>
+              <tbody>
+                {monthRecords[date].map((record, index) => (
+                  <tr key={index}>
+                    <td>{date}</td>
+                    <td>
+                      {record.Victory_Team} vs {record.Defeat_Team}
+                    </td>
+                    <td>
+                      {record.Victory_Score} - {record.Defeat_Score}
+                    </td>
+                    <td>{record.Arena_Name}</td>
+                    <td>{record.Victory_Pitcher}</td>
+                    <td>{record.Victory_Hitter}</td>
+                    <td>{record.Referee_Name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      ) : (
+        <p>해당 월에 경기가 없습니다.</p>
+      )}
     </div>
   );
 };

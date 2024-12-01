@@ -9,7 +9,7 @@
 
   .formBox {
     width: 500px;
-    height: 400px;
+    height: 430px;
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 8px;
@@ -72,23 +72,6 @@
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  
-  
-  .birthdateBox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 67%;
-  }
-  
-  .birthdateBox select {
-    padding: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    flex: 1;
   }
   
   .signupButton {

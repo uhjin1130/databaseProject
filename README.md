@@ -70,3 +70,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ### install `react-big-calendar` && `date-fns` && `react-router-dom`
+
+### install `express mysql2 cors body-parser`
+
+### install `axios bcrypt`

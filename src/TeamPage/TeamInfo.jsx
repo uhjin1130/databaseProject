@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./TeamInfo.css";
 
-const teams = [
-  { id: 1, name: "KIA", logo: "Image/KIA.png", info: "팀1의 정보" },
-  { id: 2, name: "삼성", logo: "Image/삼성.png", info: "팀2의 정보" },
-  { id: 3, name: "LG", logo: "Image/LG.png", info: "팀3의 정보" },
-  { id: 4, name: "두산", logo: "Image/두산.png", info: "팀4의 정보" },
-  { id: 5, name: "KT", logo: "Image/KT.png", info: "팀5의 정보" },
-  { id: 6, name: "SSG", logo: "Image/SSG.png", info: "팀6의 정보" },
-  { id: 7, name: "롯데", logo: "Image/롯데.png", info: "팀7의 정보" },
-  { id: 8, name: "한화", logo: "Image/한화.png", info: "팀8의 정보" },
-  { id: 9, name: "NC", logo: "Image/NC.png", info: "팀9의 정보" },
-  { id: 10, name: "키움", logo: "Image/키움.png", info: "팀10의 정보" },
-];
-
-function TeamInfo() {
+const TeamInfo = () => {
+  const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
+
+  // API에서 팀 정보를 가져오는 함수
+  const fetchTeams = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/teams-info");
+      setTeams(response.data);
+    } catch (error) {
+      console.error("Error fetching teams data:", error);
+    }
+  };
+
+  // 컴포넌트가 마운트될 때 API 호출
+  useEffect(() => {
+    fetchTeams();
+  }, []);
 
   const handleClick = (team) => {
     setSelectedTeam(team);
@@ -30,11 +34,15 @@ function TeamInfo() {
       <div className="team-grid">
         {teams.map((team) => (
           <div
-            key={team.id}
+            key={team.Team_ID}
             className="team-logo"
             onClick={() => handleClick(team)}
           >
-            <img src={`${team.logo}`} alt={team.name} />
+            <img
+              src={`Image/${team.Team_Name}.png`}
+              alt={team.Team_Name}
+              onError={(e) => (e.target.src = "Image/default.png")}
+            />
           </div>
         ))}
       </div>
@@ -42,14 +50,22 @@ function TeamInfo() {
       {selectedTeam && (
         <div className="popup">
           <div className="popup-content">
-            <h2>{selectedTeam.name}</h2>
-            <p>{selectedTeam.info}</p>
+            <h2>{selectedTeam.Team_Name}</h2>
+            <p>
+              <strong>구장:</strong> {selectedTeam.Arena_Name}
+            </p>
+            <p>
+              <strong>감독:</strong> {selectedTeam.Team_Director}
+            </p>
+            <p>
+              <strong>수상 경력:</strong> {selectedTeam.Team_Award}
+            </p>
             <button onClick={closePopup}>닫기</button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default TeamInfo;

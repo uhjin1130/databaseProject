@@ -1,26 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./TeamRankings.css";
 
 const TeamRankings = () => {
   const [year, setYear] = useState("2024");
   const [seasonType, setSeasonType] = useState("정규시즌");
+  const [rankings, setRankings] = useState([]);
 
-  const rankings = [
-    { rank: 1, team: "KIA", totalPlay: 144, wins: 80, losses: 60, draws: 4 },
-    { rank: 2, team: "LG", totalPlay: 144, wins: 78, losses: 62, draws: 4 },
-    { rank: 3, team: "두산", totalPlay: 144, wins: 75, losses: 65, draws: 4 },
-    { rank: 4, team: "SSG", totalPlay: 144, wins: 72, losses: 68, draws: 4 },
-    { rank: 5, team: "삼성", totalPlay: 144, wins: 70, losses: 70, draws: 4 },
-    { rank: 6, team: "KIA", totalPlay: 144, wins: 68, losses: 72, draws: 4 },
-    { rank: 7, team: "LG", totalPlay: 144, wins: 66, losses: 74, draws: 4 },
-    { rank: 8, team: "두산", totalPlay: 144, wins: 64, losses: 76, draws: 4 },
-    { rank: 9, team: "SSG", totalPlay: 144, wins: 62, losses: 78, draws: 4 },
-    { rank: 10, team: "삼성", totalPlay: 144, wins: 60, losses: 80, draws: 4 },
-  ];
-
-  const handleYearChange = (event) => {
-    setYear(event.target.value);
+  // 팀 순위 가져오기
+  const fetchRankings = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/team-rankings", {
+        params: { seasonType }, // 선택된 시즌을 파라미터로 전달
+      });
+      setRankings(response.data);
+    } catch (error) {
+      console.error("Error fetching team rankings:", error);
+    }
   };
+
+  useEffect(() => {
+    fetchRankings();
+  }, [seasonType]); // 시즌 유형이 변경될 때마다 순위 재조회
 
   const handleSeasonChange = (event) => {
     setSeasonType(event.target.value);
@@ -29,26 +30,16 @@ const TeamRankings = () => {
   return (
     <div className="team-rankings-container">
       <h2>
-        {year} {seasonType} 팀 순위
+        {year} {seasonType == "Regular" ? "정규시즌" : "포스트시즌"} 팀 순위
       </h2>
       <div className="controls">
-        <select
-          value={year}
-          onChange={handleYearChange}
-          className="year-selector"
-        >
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-        </select>
         <select
           value={seasonType}
           onChange={handleSeasonChange}
           className="season-selector"
         >
-          <option value="정규시즌">정규시즌</option>
-          <option value="포스트시즌">포스트시즌</option>
+          <option value="Regular">정규시즌</option>
+          <option value="Post">포스트시즌</option>
         </select>
       </div>
       <table className="team-rankings-table">
@@ -56,23 +47,23 @@ const TeamRankings = () => {
           <tr>
             <th>순위</th>
             <th>팀</th>
-            <th>경기수</th>
             <th>승</th>
-            <th>패</th>
-            <th>무</th>
           </tr>
         </thead>
         <tbody>
-          {rankings.map((team, index) => (
-            <tr key={index}>
-              <td>{team.rank}</td>
-              <td>{team.team}</td>
-              <td>{team.totalPlay}</td>
-              <td>{team.wins}</td>
-              <td>{team.losses}</td>
-              <td>{team.draws}</td>
+          {rankings.length > 0 ? (
+            rankings.map((team, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{team.team}</td>
+                <td>{team.wins}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3">데이터가 없습니다.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

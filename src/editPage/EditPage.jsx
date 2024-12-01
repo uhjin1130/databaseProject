@@ -1,43 +1,38 @@
-import React, { useState } from "react";
-import "./EditPage.css"; // 스타일을 적용하기 위한 CSS 파일
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./EditPage.css";
 
 const Board = () => {
-  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [nextId, setNextId] = useState(1); // 게시물 번호를 관리
+  const [memberId, setMemberId] = useState(""); // 작성자 ID
+  const [posts, setPosts] = useState([]); // 게시글 목록
 
-  const handlePostSubmit = () => {
-    if (title && content) {
-      setPosts([
-        ...posts,
-        {
-          id: nextId, // 고유 번호 부여
-          title: title,
-          content: content,
-          date: new Date().toLocaleString(),
-        },
-      ]);
-      setNextId(nextId + 1); // 다음 게시물 번호를 위해 증가
-      setTitle("");
-      setContent("");
-    }
-  };
+  // 게시글 목록 가져오기
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/edithistory");
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching edit history:", error);
+      }
+    };
+    fetchPosts();
+  }, []); // 빈 배열로 한 번만 실행
 
   return (
     <div className="board-container">
       <div className="post-list">
-        <h3>수정내역</h3>
+        <h3>수정목록</h3>
         {posts.length > 0 ? (
           <ul>
             {posts.map((post) => (
               <li key={post.id}>
                 <h4>
-                  {post.id}. {post.title}
-                </h4>{" "}
-                {/* 게시물 번호 표시 */}
+                  {post.id}. {post.Adminid}
+                </h4>
                 <p>{post.content}</p>
-                <span>{post.date}</span>
+                <span>요청게시물번호: {post.RequestID}</span>
               </li>
             ))}
           </ul>

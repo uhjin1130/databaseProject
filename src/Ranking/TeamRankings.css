@@ -16,7 +16,7 @@ h2 {
   gap: 20px; /* 드롭다운 간 간격 */
 }
 
-.year-selector, .season-selector {
+.season-selector {
   font-size: 0.9rem; /* 크기를 작게 조정 */
   padding: 5px;
   border-radius: 4px;

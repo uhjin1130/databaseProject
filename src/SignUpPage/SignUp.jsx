@@ -1,30 +1,34 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // 생년월일 달력 스타일의 picker 스타일 추가
+import React from "react";
 import style from "./SignUp.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
-function SignUp({ onBackClick }) {
+function SignUp() {
   const navigate = useNavigate();
-  const [birthdate, setBirthdate] = useState(null); // 생년월일 상태
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+  const password = watch("password");
 
-  const onSubmit = (data) => {
-    console.log("회원가입 데이터:", { ...data, birthdate });
-    alert("회원가입 성공!");
-    navigate("/");
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:5000/signup", data);
+      if (response.data.success) {
+        alert("회원가입 성공!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입에 실패했습니다.");
+    }
   };
 
   return (
     <div className={style.signupContainer}>
-      <div className={style.logoContainer} onClick={() => navigate("/")}>
-        {/*추후 로고 추가*/}
-      </div>
       <div className={style.formBox}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.inputGroup}>
@@ -37,18 +41,17 @@ function SignUp({ onBackClick }) {
               placeholder="Enter ID"
               {...register("id", { required: "ID는 필수 입력입니다." })}
             />
-            <button className={style.checkButton}>중복 확인</button>
           </div>
           <div className={style.errorText}>
-            {errors.id && <small role="alert">{errors.id.message}</small>}
+            {errors.id && <small>{errors.id.message}</small>}
           </div>
 
           <div className={style.inputGroup}>
-            <label htmlFor="pw" className={style.signUpLabel}>
+            <label htmlFor="password" className={style.signUpLabel}>
               PW
             </label>
             <input
-              id="pw"
+              id="password"
               type="password"
               placeholder="Enter Password"
               {...register("password", {
@@ -61,32 +64,26 @@ function SignUp({ onBackClick }) {
             />
           </div>
           <div className={style.errorText}>
-            {errors.password && (
-              <small role="alert">{errors.password.message}</small>
-            )}
+            {errors.password && <small>{errors.password.message}</small>}
           </div>
 
           <div className={style.inputGroup}>
-            <label htmlFor="reenter-pw" className={style.ReEnterPWLabel}>
+            <label htmlFor="repassword" className={style.signUpLabel}>
               Re-enter PW
             </label>
             <input
-              id="reenter-pw"
+              id="repassword"
               type="password"
               placeholder="Re-enter Password"
               {...register("repassword", {
                 required: "비밀번호 확인은 필수 입력입니다.",
-                validate: (value, { password }) =>
+                validate: (value) =>
                   value === password || "비밀번호가 일치하지 않습니다.",
               })}
             />
           </div>
           <div className={style.errorText}>
-            {errors.repassword && (
-              <small role="alert" className={style.errorText}>
-                {errors.repassword.message}
-              </small>
-            )}
+            {errors.repassword && <small>{errors.repassword.message}</small>}
           </div>
 
           <div className={style.inputGroup}>
@@ -101,53 +98,42 @@ function SignUp({ onBackClick }) {
             />
           </div>
           <div className={style.errorText}>
-            {errors.name && (
-              <small role="alert" className={style.errorText}>
-                {errors.name.message}
-              </small>
-            )}
+            {errors.name && <small>{errors.name.message}</small>}
           </div>
 
           <div className={style.inputGroup}>
-            <label className={style.signUpLabel}>Email</label>
-            <div className={style.emailBox}>
-              <input
-                type="text"
-                placeholder="Enter your E-mail Address"
-                {...register("email", {
-                  required: "이메일은 필수 입력입니다.",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                    message: "유효하지 않은 이메일 주소입니다.",
-                  },
-                })}
-              />
-            </div>
+            <label htmlFor="email" className={style.signUpLabel}>
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              placeholder="Enter your email"
+              {...register("email", {
+                required: "이메일은 필수 입력입니다.",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "유효하지 않은 이메일 주소입니다.",
+                },
+              })}
+            />
           </div>
           <div className={style.errorText}>
-            {errors.email && (
-              <small role="alert" className={style.errorText}>
-                {errors.email.message}
-              </small>
-            )}
+            {errors.email && <small>{errors.email.message}</small>}
           </div>
 
           <div className={style.inputGroup}>
-            <label className={style.signUpLabel}>Birthdate</label>
-            <div className={style.birthdateBox}>
-              <DatePicker
-                selected={birthdate}
-                onChange={(date) => setBirthdate(date)} // 날짜 변경 시 상태 업데이트
-                dateFormat="yyyy / MM / dd"
-                placeholderText="Select your birthdate"
-                showYearDropdown
-                showMonthDropdown
-                scrollableYearDropdown
-                yearDropdownItemNumber={100} // 100개의 연도 항목을 표시
-                maxDate={new Date()} // 오늘 날짜 이후로 선택 못하게 설정
-              />
-            </div>
+            <label htmlFor="phone" className={style.signUpLabel}>
+              phone
+            </label>
+            <input
+              id="phone"
+              type="text"
+              placeholder="Enter your phone"
+              {...register("phone", { required: "번호 입력은 필수입니다." })}
+            />
           </div>
+
           <button className={style.signupButton} type="submit">
             Sign up
           </button>

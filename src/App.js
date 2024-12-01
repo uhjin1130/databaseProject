@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./MainPage/NavBar";
 import Schedule from "./MainPage/Schedule";
@@ -12,48 +12,49 @@ import TeamInfo from "./TeamPage/TeamInfo";
 import PlayerSearch from "./PlayerPage/PlayerSearch";
 import EditPage from "./editPage/EditPage";
 import "./App.css";
+import axios from "axios";
 
 const App = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [formattedDate, setFormattedDate] = useState("");
-  const [games, setGames] = useState([]);
+  const [scheduleData, setScheduleData] = useState({});
 
-  const scheduleData = {
-    "2024-11-23": ["KIA vs LG", "삼성 vs 롯데", "SSG vs 한화"],
-    "2024-11-24": ["두산 vs KT"],
-  };
+  // scheduleData 초기화
+  useEffect(() => {
+    const fetchScheduleData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/gamescheduel");
+        const newScheduleData = {};
 
-  const events = [
-    {
-      title: "KIA vs LG",
-      start: new Date(2024, 10, 23),
-      end: new Date(2024, 10, 23),
-    },
-    {
-      title: "삼성 vs 롯데",
-      start: new Date(2024, 10, 23),
-      end: new Date(2024, 10, 23),
-    },
-    {
-      title: "두산 vs KT",
-      start: new Date(2024, 10, 24),
-      end: new Date(2024, 10, 24),
-    },
-  ];
+        response.data.forEach((game) => {
+          const gameDate = new Date(game.Game_Date)
+            .toLocaleDateString("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            })
+            .replace(/\./g, "")
+            .replace(/ /g, "-"); // 2024-07-23 형식으로 변환
+
+          if (!newScheduleData[gameDate]) {
+            newScheduleData[gameDate] = [];
+          }
+
+          newScheduleData[gameDate].push(
+            `${game.HomeTeam} vs ${game.AwayTeam}`
+          );
+        });
+
+        setScheduleData(newScheduleData);
+      } catch (error) {
+        console.error("Error fetching game schedule:", error);
+      }
+    };
+
+    fetchScheduleData();
+  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-
-    const formatted = date
-      .toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-      .replace(/\. /g, "-")
-      .replace(".", "");
-    setFormattedDate(formatted);
-    setGames(scheduleData[formatted] || []);
   };
 
   return (
@@ -66,8 +67,14 @@ const App = () => {
             path="/"
             element={
               <div className="main-container">
-                <Schedule events={events} onDateChange={handleDateChange} />
-                <MainPage formattedDate={formattedDate} games={games} />
+                <Schedule
+                  events={scheduleData}
+                  onDateChange={handleDateChange}
+                />
+                <MainPage
+                  selectedDate={selectedDate}
+                  scheduleData={scheduleData}
+                />
               </div>
             }
           />
