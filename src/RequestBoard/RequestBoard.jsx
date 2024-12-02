@@ -35,9 +35,9 @@ const Board = () => {
         if (response.data.success) {
           setPosts([
             {
-              id: response.data.insertedId, // DB에서 생성된 ID
-              memberId: memberId,
-              content: content,
+              EditRequest_Num: response.data.insertedId, // DB에서 생성된 ID
+              Member_ID: memberId,
+              Content: content,
             },
             ...posts, // 기존 게시글 유지
           ]);
@@ -84,11 +84,11 @@ const Board = () => {
         {posts.length > 0 ? (
           <ul>
             {posts.map((post) => (
-              <li key={post.id}>
+              <li key={post.EditRequest_Num}>
                 <h4>
-                  {post.id}. {post.Adminid}
+                  {post.EditRequest_Num}. {post.Member_ID}
                 </h4>
-                <p>{post.content}</p>
+                <p>{post.Content}</p>
               </li>
             ))}
           </ul>

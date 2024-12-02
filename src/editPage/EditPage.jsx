@@ -27,12 +27,12 @@ const Board = () => {
         {posts.length > 0 ? (
           <ul>
             {posts.map((post) => (
-              <li key={post.id}>
+              <li key={post.Edit_Num}>
                 <h4>
-                  {post.id}. {post.Adminid}
+                  {post.Edit_Num}. {post.Admin_ID}
                 </h4>
                 <p>{post.content}</p>
-                <span>요청게시물번호: {post.RequestID}</span>
+                <span>요청게시물번호: {post.EditRequest_Num}</span>
               </li>
             ))}
           </ul>
