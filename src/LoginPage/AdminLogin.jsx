@@ -13,16 +13,15 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("http://localhost:5000/adminlogin", {
         id,
         pw,
       });
       console.log(response.data);
 
       // 로그인 성공 시 localStorage에 로그인 정보 저장
-      localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("currentUser", response.data.user.id);
-      alert("Login successful!");
+      localStorage.setItem("adminloggedIn", "true");
+      alert("Admin Login successful!");
       navigate("/"); // 로그인 후 홈 화면으로 리디렉션
       window.location.reload();
     } catch (error) {

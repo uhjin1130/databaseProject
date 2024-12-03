@@ -62,7 +62,6 @@ const Board = () => {
             id="memberId"
             value={memberId}
             onChange={(e) => setMemberId(e.target.value)}
-            placeholder="작성자 ID를 입력하세요"
           />
         </div>
         <div className="input-group">

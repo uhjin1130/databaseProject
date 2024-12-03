@@ -28,7 +28,13 @@ const AdminPage = () => {
   ]; // 필요한 테이블 추가
 
   const fieldMappings = {
-    admins: ["Admin_ID", "Admin_Name", "Admin_Phone", "Admin_Email"],
+    admins: [
+      "Admin_ID",
+      "Admin_Name",
+      "Admin_Phone",
+      "Admin_Email",
+      "Admin_PW",
+    ],
     defensestat: [
       "Player_ID",
       "Raa",

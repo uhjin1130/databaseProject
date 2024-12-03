@@ -31,7 +31,7 @@ const Board = () => {
                 <h4>
                   {post.Edit_Num}. {post.Admin_ID}
                 </h4>
-                <p>{post.content}</p>
+                <p>{post.Content}</p>
                 <span>요청게시물번호: {post.EditRequest_Num}</span>
               </li>
             ))}

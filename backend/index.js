@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const db = require("./db");
 const bcrypt = require("bcrypt");
+const saltRounds = 10; // bcrypt 해시화 시 사용할 saltRounds 정의
 
 const app = express();
 app.use(cors());
@@ -22,20 +23,26 @@ app.get("/admins", async (req, res) => {
 
 // admins 테이블에 데이터 추가
 app.post("/admins", async (req, res) => {
-  const { Admin_ID, Admin_Name, Admin_Phone, Admin_Email } = req.body;
-  if (!Admin_ID || !Admin_Name || !Admin_Phone || !Admin_Email) {
+  const { Admin_ID, Admin_Name, Admin_Phone, Admin_Email, Admin_PW } = req.body;
+
+  if (!Admin_ID || !Admin_Name || !Admin_Phone || !Admin_Email || !Admin_PW) {
     return res.status(400).send("모든 필드를 입력해야 합니다.");
   }
+
   try {
+    // 비밀번호 해시화
+    const hashedPassword = await bcrypt.hash(Admin_PW, saltRounds); // saltRounds 정의한 후 사용
+
     const query = `
-      INSERT INTO admins (Admin_ID, Admin_Name, Admin_Phone, Admin_Email)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO admins (Admin_ID, Admin_Name, Admin_Phone, Admin_Email, Admin_PW)
+      VALUES (?, ?, ?, ?, ?)
     `;
     const [result] = await db.query(query, [
       Admin_ID,
       Admin_Name,
       Admin_Phone,
       Admin_Email,
+      hashedPassword, // 해시된 비밀번호 저장
     ]);
     res.json({ success: true, insertedId: result.insertId });
   } catch (error) {
@@ -44,25 +51,32 @@ app.post("/admins", async (req, res) => {
   }
 });
 
-// admins 테이블 데이터 수정
+/// admins 테이블 데이터 수정
 app.put("/admins/:id", async (req, res) => {
   const { id } = req.params; // URL에서 ID 추출
-  const { Admin_Name, Admin_Phone, Admin_Email } = req.body;
+  const { Admin_Name, Admin_Phone, Admin_Email, Admin_PW } = req.body;
 
   if (!Admin_Name || !Admin_Phone || !Admin_Email) {
     return res.status(400).send("모든 필드를 입력해야 합니다.");
   }
 
   try {
+    let hashedPassword = null;
+    if (Admin_PW) {
+      // 비밀번호가 수정되었을 때만 해시화
+      hashedPassword = await bcrypt.hash(Admin_PW, saltRounds);
+    }
+
     const query = `
       UPDATE admins 
-      SET Admin_Name = ?, Admin_Phone = ?, Admin_Email = ?
+      SET Admin_Name = ?, Admin_Phone = ?, Admin_Email = ?, Admin_PW = ?
       WHERE Admin_ID = ?
     `;
     const [result] = await db.query(query, [
       Admin_Name,
       Admin_Phone,
       Admin_Email,
+      hashedPassword || null, // 비밀번호가 없으면 기존 비밀번호 그대로 두기
       id, // 조건절에 사용하는 ID
     ]);
 
@@ -988,6 +1002,49 @@ app.delete("/hitstat/:id", async (req, res) => {
   }
 });
 
+// 관리자 로그인 API 추가
+app.post("/adminlogin", async (req, res) => {
+  const { id, pw } = req.body;
+
+  if (!id || !pw) {
+    return res.status(400).json({ message: "ID and Password are required" });
+  }
+
+  try {
+    // members 테이블에서 해당 ID의 사용자 정보를 조회
+    const query = `SELECT * FROM admins WHERE Admin_ID = ?`;
+    const [rows] = await db.query(query, [id]);
+
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Invalid ID or Password" });
+    }
+
+    const user = rows[0];
+
+    // 비밀번호 비교 (입력된 비밀번호와 암호화된 비밀번호)
+    const isMatch = await bcrypt.compare(pw, user.Admin_PW);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid ID or Password" });
+    }
+
+    // 로그인 성공 시, 사용자 정보 반환
+    res.json({
+      message: "Login successful",
+      user: {
+        id: user.Admin_ID,
+        name: user.Admin_Name,
+        email: user.Admin_Phone,
+        phone: user.Admin_Email,
+        pw: user.Admin_PW,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // 로그인 API 추가
 app.post("/login", async (req, res) => {
   const { id, pw } = req.body;
@@ -1057,6 +1114,80 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// GET: 마이페이지에 회원 정보 출력
+app.get("/members/:id", async (req, res) => {
+  const { id } = req.params; // URL 파라미터에서 Member_ID 추출
+  try {
+    const query = "SELECT * FROM members WHERE Member_ID = ?";
+    const [rows] = await db.query(query, [id]);
+
+    if (rows.length === 0) {
+      return res.status(404).send("Member not found");
+    }
+
+    res.json(rows[0]); // 해당 회원 정보 반환
+  } catch (error) {
+    console.error("Error fetching member data:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// 마이페이지에서 회원 정보 수정 API
+app.put("/api/members/:id", async (req, res) => {
+  const { id } = req.params;
+  const { Member_Name, Member_Phone, Member_Email, Password } = req.body;
+
+  try {
+    // 기존의 업데이트 필드 정의
+    const updateFields = {
+      Member_Name,
+      Member_Phone,
+      Member_Email,
+    };
+
+    // 비밀번호가 전달된 경우 새로 해시화
+    if (Password) {
+      const hashedPassword = await bcrypt.hash(Password, 10);
+      updateFields.Password = hashedPassword;
+    }
+
+    // 업데이트 SQL 실행
+    const result = await db.query("UPDATE members SET ? WHERE Member_ID = ?", [
+      updateFields,
+      id,
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "회원 정보를 찾을 수 없습니다." });
+    }
+
+    res.status(200).json({ message: "회원 정보가 성공적으로 수정되었습니다." });
+  } catch (error) {
+    console.error("Error updating member data:", error);
+    res.status(500).json({ message: "서버 오류가 발생했습니다." });
+  }
+});
+
+// 회원 삭제 API
+app.delete("/api/members/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.query("DELETE FROM members WHERE Member_ID = ?", [
+      id,
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "회원 정보를 찾을 수 없습니다." });
+    }
+
+    res.status(200).json({ message: "회원 탈퇴가 성공적으로 처리되었습니다." });
+  } catch (error) {
+    console.error("Error deleting member:", error);
+    res.status(500).json({ message: "서버 오류가 발생했습니다." });
+  }
+});
+
 // GET: 모든 회원 정보 가져오기 (비밀번호 제외)
 app.get("/members", async (req, res) => {
   try {
@@ -1065,7 +1196,8 @@ app.get("/members", async (req, res) => {
         Member_ID, 
         Member_Name, 
         Member_Phone, 
-        Member_Email 
+        Member_Email,
+        Password 
       FROM members;
     `; // 비밀번호는 반환하지 않음
     const [rows] = await db.query(query);

@@ -12,6 +12,8 @@ import TeamInfo from "./TeamPage/TeamInfo";
 import PlayerSearch from "./PlayerPage/PlayerSearch";
 import EditPage from "./editPage/EditPage";
 import AdminPage from "./AdminPage/AdminPage";
+import MyPage from "./MyPage/MyPage";
+import AdminLogin from "./LoginPage/AdminLogin";
 import "./App.css";
 import axios from "axios";
 
@@ -79,6 +81,8 @@ const App = () => {
               </div>
             }
           />
+          {/* 관리자 로그인 페이지 */}
+          <Route path="/adminlogin" element={<AdminLogin />} />
           {/* 로그인 페이지 */}
           <Route path="/login" element={<Login />} />
           {/* 회원가입 페이지 */}
@@ -97,6 +101,8 @@ const App = () => {
           <Route path="/edit" element={<EditPage />} />
           {/* 관리자 페이지 */}
           <Route path="/admin" element={<AdminPage />} />
+          {/* 관리자 페이지 */}
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </div>
     </Router>

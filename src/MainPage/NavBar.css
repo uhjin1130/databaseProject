@@ -53,6 +53,12 @@
   /* 호버 시 색상 */
 }
 
+.admin-login-btn {
+  background-color: orange;
+  color: white;
+  margin-right: 5px;
+}
+
 .login-btn {
   background-color: #007BFF;
   color: white;
@@ -64,6 +70,12 @@
   color: white;
 }
 
+.member-btn {
+  background-color: #28A745;
+  color: white;
+}
+
+.admin-login-btn a,
 .login-btn a,
 .signup-btn a {
   text-decoration: none; /* 밑줄 제거 */
@@ -87,3 +99,14 @@
   background-color: #ff1a1a;
 }
 
+/* 비활성화된 링크 스타일 */
+.disabled-link {
+  pointer-events: none;  /* 클릭 불가 */
+  color: #ccc;  /* 비활성화된 색상 */
+  text-decoration: none;  /* 링크 스타일 제거 */
+}
+
+/* 비활성화된 링크에 hover 스타일 제거 */
+.disabled-link:hover {
+  cursor: not-allowed; /* 비활성화된 링크에 마우스를 올려도 커서가 바뀌지 않음 */
+}
