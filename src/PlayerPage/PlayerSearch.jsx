@@ -15,7 +15,7 @@ const PlayerRecords = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching players data"); // 확인용 로그
-        const response = await axios.get("http://localhost:5000/players");
+        const response = await axios.get("http://localhost:5000/playersA");
         console.log("Received data:", response.data); // 받아온 데이터 확인
         setPlayersData(response.data);
       } catch (error) {
@@ -81,6 +81,7 @@ const PlayerRecords = () => {
               <th>Kbb</th>
               <th>DeAvg</th>
               <th>Era</th>
+              <th>Whip</th>
               <th>PitchWar</th>
               <th>Raa</th>
               <th>Error</th>
@@ -100,10 +101,11 @@ const PlayerRecords = () => {
                 <td>{player.BattingAvh || "N"}</td>
                 <td>{player.Ops || "N"}</td>
                 <td>{player.Wrc || "N"}</td>
-                <td>{player.Hit_War || "N"}</td>
+                <td>{player.War || "N"}</td>
                 <td>{player.Kbb || "N"}</td>
                 <td>{player.DeAvg || "N"}</td>
                 <td>{player.Era || "N"}</td>
+                <td>{player.Whip || "N"}</td>
                 <td>{player.PitchWar || "N"}</td>
                 <td>{player.Raa || "N"}</td>
                 <td>{player.Error || "N"}</td>

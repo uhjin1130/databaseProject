@@ -1445,49 +1445,43 @@ app.delete("/players/:id", async (req, res) => {
 });
 
 // API: players와 hitstat 테이블 데이터 가져오기
-app.get("/players", async (req, res) => {
-  const { team, position } = req.query;
-
-  // 쿼리 파라미터 확인
-  console.log("받은 쿼리 파라미터 - 팀:", team, "포지션:", position);
-
-  const query = `
-    SELECT 
-        p.Player_ID, 
-        p.Player_Name, 
-        p.Player_Team, 
-        p.Player_Num,
-        p.Position_ID,
-        h.Hit,
-        h.Homerun,
-        h.BattingAvh,
-        h.Ops,
-        h.Wrc,
-        h.Hit_War,
-        pit.Kbb,
-        pit.DeAvg,
-        pit.Era,
-        pit.Whip,
-        pit.PitchWar,
-        pit.Inning,
-        d.Raa,
-        d.Error,
-        d.DefenseInning,
-        d.Pass,
-        d.StealingBlockRate
-    FROM 
-        players p
-    LEFT JOIN 
-        hitstat h ON p.Player_ID = h.Player_ID
-    LEFT JOIN
-        pitchstat pit ON p.Player_ID = pit.Player_ID
-    LEFT JOIN
-        defensestat d ON p.Player_ID = d.Player_ID
-  `;
-
+app.get("/playersA", async (req, res) => {
   try {
-    const [rows] = await db.query(query, [team, team, position, position]);
-    console.log("쿼리 결과:", rows); // 쿼리 결과 확인
+    const query = `
+      SELECT 
+          p.Player_ID, 
+          p.Player_Name, 
+          p.Player_Team, 
+          p.Player_Num,
+          p.Position_ID,
+          h.Hit,
+          h.Homerun,
+          h.BattingAvg,
+          h.Ops,
+          h.Wrc,
+          h.War,
+          pit.Kbb,
+          pit.DeAvg,
+          pit.Era,
+          pit.Whip,
+          pit.PitchWar,
+          pit.Inning,
+          d.Raa,
+          d.Error,
+          d.DefenseInning,
+          d.Pass,
+          d.StealingBlockRate
+      FROM 
+          players p
+      LEFT JOIN 
+          hitstat h ON p.Player_ID = h.Player_ID
+      LEFT JOIN
+          pitchstat pit ON p.Player_ID = pit.Player_ID
+      LEFT JOIN
+          defensestat d ON p.Player_ID = d.Player_ID
+    `;
+    const [rows] = await db.query(query);
+    console.log("쿼리 결과:", rows); // 확인용 로그
     res.json(rows);
   } catch (error) {
     console.error("선수 정보 조회 중 오류 발생:", error);
