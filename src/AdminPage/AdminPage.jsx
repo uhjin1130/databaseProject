@@ -59,15 +59,7 @@ const AdminPage = () => {
       "Season",
     ],
     gamescheduel: ["Game_Num", "Season", "HomeTeam", "AwayTeam", "Game_Date"],
-    hitstat: [
-      "Player_ID",
-      "Hit",
-      "Homerun",
-      "BattingAvh",
-      "Ops",
-      "Wrc",
-      "Hit_War",
-    ],
+    hitstat: ["Player_ID", "Hit", "Homerun", "BattingAvg", "Ops", "Wrc", "War"],
     members: ["Member_ID", "Member_Name", "Member_Phone", "Member_Email"],
     players: [
       "Player_ID",
@@ -78,7 +70,7 @@ const AdminPage = () => {
     ],
     position: ["Position_ID", "Position_Name"],
     referees: ["Referee_ID", "Referee_Name"],
-    seasons: ["Season", "Team_ID", "Player_ID"],
+    seasons: ["Season"],
     stadium: ["Arena_Name", "Arena_Region"],
     teamhistory: [
       "TeamHistory_ID",
