@@ -127,7 +127,6 @@ const MyPage = () => {
     <div className="mypage">
       <h1>마이페이지</h1>
       <form onSubmit={handleSubmit}>
-        {/* 기존 폼 */}
         <div className="form-group">
           <label htmlFor="memberName">이름</label>
           <input
@@ -172,15 +171,14 @@ const MyPage = () => {
             placeholder="비밀번호를 수정하려면 입력하세요"
           />
         </div>
+        <button type="submit">정보 수정</button>
+        <button
+          onClick={handleDeleteAccount}
+          style={{ color: "red", marginTop: "10px", marginLeft: "80px" }}
+        >
+          회원 탈퇴
+        </button>
       </form>
-      <button type="submit">정보 수정</button>
-      {/* 회원 탈퇴 버튼 */}
-      <button
-        onClick={handleDeleteAccount}
-        style={{ color: "red", marginTop: "10px", marginLeft: "80px" }}
-      >
-        회원 탈퇴
-      </button>
     </div>
   );
 };

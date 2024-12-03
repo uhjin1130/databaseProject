@@ -1173,6 +1173,25 @@ app.delete("/api/members/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
+    // 1. editrequest 테이블의 ID와 연결된 모든 EditRequest_Num을 가져옴
+    const [editRequestRows] = await db.query(
+      "SELECT EditRequest_Num FROM editrequest WHERE Member_ID = ?",
+      [id]
+    );
+
+    const editRequestIds = editRequestRows.map((row) => row.EditRequest_Num);
+
+    if (editRequestIds.length > 0) {
+      // 2. edithistory에서 EditRequest_Num에 해당하는 모든 데이터를 삭제
+      await db.query("DELETE FROM edithistory WHERE EditRequest_Num IN (?)", [
+        editRequestIds,
+      ]);
+
+      // 3. editrequest에서 Member_ID에 해당하는 데이터 삭제
+      await db.query("DELETE FROM editrequest WHERE Member_ID = ?", [id]);
+    }
+
+    // 4. members 테이블에서 사용자 삭제
     const result = await db.query("DELETE FROM members WHERE Member_ID = ?", [
       id,
     ]);
